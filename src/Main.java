@@ -20,31 +20,33 @@ public class Main {
             System.out.println("NumRows: " + size + " NumCols " + size);
 
             //Create matrixA/matrixB
-            int[][] matrixA = new int[size][size];
-            int[][] matrixB = new int[size][1];
+            double[][] matrixA = new double[size][size];
+            double[] matrixB = new double[size];
 
             //Populate matrixB
             int count = 0;
             for(String value : desiredRatio) {
-                matrixB[count][0] = Integer.parseInt(value);
+                matrixB[count] = Double.parseDouble(value);
                 count++;
             }
-            
+
             //Populate Matrix A
             int col = 0;
             while(input.hasNextLine()) {
                 int row = 0;
                 String[] values = input.nextLine().split(":");
                 for (String value : values) {
-                    matrixA[row][col] = Integer.parseInt(value);
+                    matrixA[row][col] = Double.parseDouble(value);
                     row++;
                 }
                 col++;
             }
-            //Print matrixA
-            printMatrix(matrixA);
-            //Print out matrixB
-            printMatrix(matrixB);
+
+            // Matrix to solve using gaussian elimination
+            Matrix solution = new Matrix(matrixA, matrixB);
+            solution.solve();
+            System.out.println(solution.toString());
+
 
         }catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
