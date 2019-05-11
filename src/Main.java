@@ -14,14 +14,17 @@ public class Main {
         try (Scanner input = new Scanner(file)) {
             // Get desired ratio
             String[] desiredRatio = input.nextLine().split(":");
+            numRows = desiredRatio.length;
+            while(input.hasNextLine()) {
+                input.nextLine();
+                numCols++;
+            }
 
-            //Determine size of matrix
-            int size = desiredRatio.length;
-            System.out.println("NumRows: " + size + " NumCols " + size);
+            System.out.println("NumRows: " + numRows + " NumCols " + numCols);
 
             //Create matrixA/matrixB
-            double[][] matrixA = new double[size][size];
-            double[] matrixB = new double[size];
+            double[][] matrixA = new double[numRows][numCols];
+            double[] matrixB = new double[numRows];
 
             //Populate matrixB
             int count = 0;
@@ -30,17 +33,26 @@ public class Main {
                 count++;
             }
 
-            //Populate Matrix A
-            int col = 0;
-            while(input.hasNextLine()) {
-                int row = 0;
-                String[] values = input.nextLine().split(":");
-                for (String value : values) {
-                    matrixA[row][col] = Double.parseDouble(value);
-                    row++;
+            try(Scanner input2 = new Scanner(file)) {
+                //Consume first line
+                input2.nextLine();
+
+                //Populate Matrix A
+                int col = 0;
+                while(input2.hasNextLine()) {
+                    int row = 0;
+                    String[] values = input2.nextLine().split(":");
+                    for (String value : values) {
+                        matrixA[row][col] = Double.parseDouble(value);
+                        row++;
+                    }
+                    col++;
                 }
-                col++;
-            }
+            }catch (FileNotFoundException e) { e.getMessage(); }
+
+            //Print out matrix A
+            printMatrix(matrixA);
+            System.out.println();
 
             // Matrix to solve using gaussian elimination
             Matrix solution = new Matrix(matrixA, matrixB);
@@ -53,7 +65,7 @@ public class Main {
         }
     }
 
-    private static void printMatrix(int[][] matrix) {
+    private static void printMatrix(double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 System.out.print(matrix[i][j] + " ");
