@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 public class Matrix {
     private Fraction[][] fractionMatrixA;
     private Fraction[] fractionMatrixB;
@@ -62,7 +64,8 @@ public class Matrix {
     public String toString() {
         String result = "";
         for (int i = 0; i < fractionMatrixB.length; i++) {
-            result += "x" + (i+1) + " = " + fractionMatrixB[i].toString() + "\n";
+            BigInteger numerator = fractionMatrixB[i].getNumerator().negate();
+            result += "x" + (i+1) + " = " + numerator.toString() + "\n";
         }
         return result;
     }

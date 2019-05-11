@@ -56,4 +56,8 @@ public class Fraction {
             return gcd(b, a.mod(b));
         }
     }
+
+    public BigInteger getNumerator() {
+        return numerator;
+    }
 }
